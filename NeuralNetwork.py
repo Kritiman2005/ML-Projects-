@@ -9,7 +9,6 @@ class Neural_Network:
         self.n_iters = n_iters
 
     def sigmoid(self, z):
-        # Clip z to prevent overflow
         z = np.clip(z, -500, 500)
         return 1 / (1 + np.exp(-z))
 
@@ -23,13 +22,11 @@ class Neural_Network:
         n_input_features, n_samples = X.shape
         n_output_features = y.shape[0]
 
-        # Fix: Handle both 1D and 2D y arrays
         if y.ndim == 1:
             y = y.reshape(1, -1)  # Convert 1D to 2D: (n_samples,) -> (1, n_samples)
         n_output_features = y.shape[0]
 
         np.random.seed(42)
-        # He initialization for ReLU (better than Xavier for ReLU)
         self.w1 = np.random.randn(self.nn_dim, n_input_features) * np.sqrt(2.0 / n_input_features)
         self.b1 = np.zeros((self.nn_dim, 1))
         self.w2 = np.random.randn(self.nn_dim, self.nn_dim) * np.sqrt(2.0 / self.nn_dim)
